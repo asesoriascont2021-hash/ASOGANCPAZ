@@ -9,10 +9,43 @@ import TransparenciaRteModule from './components/TransparenciaRteModule';
 import coffeeFarmImg from './assets/images/coffee_farm_1782839016532.jpg';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'inicio' | 'mision_vision' | 'catalogo_pergamino' | 'transparencia_rte'>('inicio');
+  // Helper to map URL path to tab ID
+  const getTabFromPath = (): 'inicio' | 'mision_vision' | 'catalogo_pergamino' | 'transparencia_rte' => {
+    if (typeof window === 'undefined') return 'inicio';
+    const path = window.location.pathname.replace(/^\//, '').toLowerCase();
+    if (path === 'inicio' || path === '') return 'inicio';
+    if (path === 'mision-vision' || path === 'mision_vision') return 'mision_vision';
+    if (path === 'catalogo-pergamino' || path === 'catalogo_pergamino') return 'catalogo_pergamino';
+    if (path === 'transparencia-rte' || path === 'transparencia_rte') return 'transparencia_rte';
+    return 'inicio';
+  };
+
+  const [activeTab, setActiveTab] = useState<'inicio' | 'mision_vision' | 'catalogo_pergamino' | 'transparencia_rte'>(getTabFromPath);
   const [precioBaseCargo, setPrecioBaseCargo] = useState(1960000); // Default: COP per cargo
   const [tasaCambioTRM, setTasaCambioTRM] = useState(4180); // Default: COP per USD
   const [loadingPrices, setLoadingPrices] = useState(true);
+
+  // Synchronize state with popstate event (back/forward browser buttons)
+  useEffect(() => {
+    const handlePopState = () => {
+      setActiveTab(getTabFromPath());
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+
+  // Update browser URL and active tab when user clicks a menu item
+  const navigateToTab = (tabId: 'inicio' | 'mision_vision' | 'catalogo_pergamino' | 'transparencia_rte') => {
+    setActiveTab(tabId);
+    let path = '/';
+    if (tabId === 'mision_vision') path = '/mision-vision';
+    else if (tabId === 'catalogo_pergamino') path = '/catalogo-pergamino';
+    else if (tabId === 'transparencia_rte') path = '/transparencia-rte';
+    
+    window.history.pushState(null, '', path);
+  };
 
   // Fetch prices from server API on mount so we can coordinate calculator values globally
   useEffect(() => {
@@ -115,7 +148,7 @@ export default function App() {
                   <button
                     key={tab.id}
                     id={`tab-button-${tab.id}`}
-                    onClick={() => setActiveTab(tab.id as any)}
+                    onClick={() => navigateToTab(tab.id as any)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold tracking-tight transition-all duration-200 cursor-pointer text-left w-full ${
                       isActive
                         ? 'bg-olive-800 text-white shadow-sm font-extrabold'
