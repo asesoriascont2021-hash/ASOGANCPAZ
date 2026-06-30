@@ -1,0 +1,6 @@
+{
+  "name": "ASOGANCPAZ",
+  "description": "Asociación Ganadera Campesina por la Paz - Tolima. Suministro de insumos, acopio y comercialización de café especial y ganado bovino.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
