@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Scale, ShoppingBag, Award, Sparkles, Sprout, Heart, BookOpen, ChevronRight, Home, Compass, Coffee, ShieldCheck } from 'lucide-react';
+import { Scale, Award, Sparkles, Sprout, Heart, BookOpen, ChevronRight, Home, Compass, Coffee, ShieldCheck } from 'lucide-react';
 import AcopioModule from './components/AcopioModule';
-import SuppliesModule from './components/SuppliesModule';
 import SpecialtyLotsModule from './components/SpecialtyLotsModule';
 import AgronomistChat from './components/AgronomistChat';
 import MisionVisionModule from './components/MisionVisionModule';
 import TransparenciaRteModule from './components/TransparenciaRteModule';
+import coffeeFarmImg from './assets/images/coffee_farm_1782839016532.jpg';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'inicio' | 'mision_vision' | 'catalogo_pergamino' | 'plan_suministro' | 'transparencia_rte'>('inicio');
+  const [activeTab, setActiveTab] = useState<'inicio' | 'mision_vision' | 'catalogo_pergamino' | 'transparencia_rte'>('inicio');
   const [precioBaseCargo, setPrecioBaseCargo] = useState(1960000); // Default: COP per cargo
   const [tasaCambioTRM, setTasaCambioTRM] = useState(4180); // Default: COP per USD
   const [loadingPrices, setLoadingPrices] = useState(true);
@@ -95,68 +95,89 @@ export default function App() {
       </header>
 
       {/* Main Tabbed Workspace */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
-        
-        {/* Navigation Tabs bar */}
-        <div className="flex flex-wrap border-b border-stone-250 gap-4 sm:gap-6">
-          {[
-            { id: 'inicio', label: 'Inicio', icon: Home },
-            { id: 'mision_vision', label: 'Misión y Visión', icon: Compass },
-            { id: 'catalogo_pergamino', label: 'Catálogo Pergamino', icon: Coffee },
-            { id: 'plan_suministro', label: 'Plan de Suministro', icon: ShoppingBag },
-            { id: 'transparencia_rte', label: 'Transparencia RTE', icon: ShieldCheck }
-          ].map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                id={`tab-button-${tab.id}`}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-1 py-3 text-xs sm:text-sm font-bold tracking-tight border-b-2 transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? 'border-olive-700 text-olive-800 font-extrabold'
-                    : 'border-transparent text-stone-700 hover:text-olive-900 hover:border-stone-300'
-                }`}
-              >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-olive-700' : 'text-stone-400'}`} />
-                <span>{tab.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Dynamic Workspace Container */}
-        <div id="dynamic-workspace-container" className="min-h-[500px]">
-          {activeTab === 'inicio' && (
-            <div className="space-y-8 animate-fadeIn">
-              <AcopioModule precioBaseCargo={precioBaseCargo} />
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+           {/* Vertical Navigation Sidebar */}
+          <div className="lg:col-span-3 bg-white border border-stone-200 rounded-2xl p-4 shadow-3xs space-y-3 shrink-0" id="vertical-nav-sidebar">
+            <h2 className="text-[10px] uppercase font-bold tracking-widest text-stone-400 px-2.5 pb-2 border-b border-stone-100">
+              Menú de Navegación
+            </h2>
+            <div className="flex flex-col gap-1.5">
+              {[
+                { id: 'inicio', label: 'Inicio', icon: Home },
+                { id: 'mision_vision', label: 'Misión y Visión', icon: Compass },
+                { id: 'catalogo_pergamino', label: 'Catálogo Pergamino', icon: Coffee },
+                { id: 'transparencia_rte', label: 'Transparencia RTE', icon: ShieldCheck }
+              ].map((tab) => {
+                const Icon = tab.icon;
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    id={`tab-button-${tab.id}`}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl text-xs sm:text-sm font-bold tracking-tight transition-all duration-200 cursor-pointer text-left w-full ${
+                      isActive
+                        ? 'bg-olive-800 text-white shadow-sm font-extrabold'
+                        : 'text-stone-700 hover:text-olive-900 hover:bg-stone-50'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-stone-400'}`} />
+                    <span>{tab.label}</span>
+                  </button>
+                );
+              })}
             </div>
-          )}
 
-          {activeTab === 'mision_vision' && (
-            <div className="animate-fadeIn">
-              <MisionVisionModule />
+            {/* Ambient Coffee Background Sidebar Card */}
+            <div className="relative overflow-hidden rounded-xl bg-stone-950 text-white p-4.5 shadow-2xs border border-stone-900 mt-4 h-48 flex flex-col justify-end">
+              <img
+                src={coffeeFarmImg}
+                alt="Cafetales de Icononzo"
+                className="absolute inset-0 w-full h-full object-cover opacity-40 pointer-events-none"
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/45 to-transparent pointer-events-none"></div>
+              <div className="relative z-10 space-y-1.5">
+                <span className="text-[9px] font-extrabold uppercase tracking-widest text-emerald-400 bg-emerald-950/70 border border-emerald-900/60 px-2 py-0.5 rounded-xs inline-block">
+                  Tolima, Colombia
+                </span>
+                <h4 className="font-serif text-sm font-extrabold text-white leading-tight">
+                  Icononzo • Altas Montañas
+                </h4>
+                <p className="text-[10px] text-stone-300 font-sans leading-snug">
+                  Nuestros caficultores cultivan granos finos de origen entre 1,600 y 1,900 m.s.n.m.
+                </p>
+              </div>
             </div>
-          )}
+          </div>
 
-          {activeTab === 'catalogo_pergamino' && (
-            <div className="animate-fadeIn">
-              <SpecialtyLotsModule tasaCambioTRM={tasaCambioTRM} />
-            </div>
-          )}
+          {/* Dynamic Workspace Container */}
+          <div id="dynamic-workspace-container" className="lg:col-span-9 min-h-[500px]">
+            {activeTab === 'inicio' && (
+              <div className="space-y-8 animate-fadeIn">
+                <AcopioModule precioBaseCargo={precioBaseCargo} />
+              </div>
+            )}
 
-          {activeTab === 'plan_suministro' && (
-            <div className="animate-fadeIn">
-              <SuppliesModule />
-            </div>
-          )}
+            {activeTab === 'mision_vision' && (
+              <div className="animate-fadeIn">
+                <MisionVisionModule />
+              </div>
+            )}
 
-          {activeTab === 'transparencia_rte' && (
-            <div className="animate-fadeIn">
-              <TransparenciaRteModule />
-            </div>
-          )}
+            {activeTab === 'catalogo_pergamino' && (
+              <div className="animate-fadeIn">
+                <SpecialtyLotsModule tasaCambioTRM={tasaCambioTRM} />
+              </div>
+            )}
+
+            {activeTab === 'transparencia_rte' && (
+              <div className="animate-fadeIn">
+                <TransparenciaRteModule />
+              </div>
+            )}
+          </div>
         </div>
       </main>
 

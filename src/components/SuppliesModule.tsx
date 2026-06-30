@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Search, ShoppingBag, Plus, Minus, RotateCcw, Check, Sparkles, Tag } from 'lucide-react';
 import { SupplyItem } from '../types';
+import coffeeCherriesImg from '../assets/images/coffee_cherries_1782839052589.jpg';
 
 export default function SuppliesModule() {
   const [items, setItems] = useState<SupplyItem[]>([]);
@@ -135,6 +136,29 @@ export default function SuppliesModule() {
 
   return (
     <div className="space-y-6" id="supplies-module-container">
+      {/* Banner de Suministros con Fondo de Café */}
+      <div className="bg-stone-950 text-white rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm relative overflow-hidden min-h-[160px]">
+        <img
+          src={coffeeCherriesImg}
+          alt="Insumos de Café"
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/80 to-transparent pointer-events-none"></div>
+        <div className="space-y-2 max-w-xl relative z-10">
+          <div className="inline-flex items-center gap-1.5 bg-olive-950/60 backdrop-blur-xs border border-olive-800 text-olive-300 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+            <ShoppingBag className="w-3.5 h-3.5" />
+            Suministros y Bioinsumos Oficiales
+          </div>
+          <h2 className="font-serif text-xl sm:text-2xl font-extrabold text-white leading-tight">
+            Apoyo Tecnológico y Bioinsumos al Caficultor
+          </h2>
+          <p className="text-stone-300 text-xs sm:text-sm leading-relaxed font-sans">
+            Garantizamos insumos orgánicos de alta calidad para mantener la sanidad de su cultivo, protegiendo el ecosistema de Icononzo y elevando el rendimiento en taza de su café.
+          </p>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Supplies Catalog (8 cols) */}
         <div className="lg:col-span-8 space-y-6">

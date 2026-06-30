@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FileText, Download, CheckCircle, Shield, Calendar, Award, Building, DollarSign, Mail, Send, ExternalLink, RefreshCw } from 'lucide-react';
+import coffeeFarmImg from '../assets/images/coffee_farm_1782839016532.jpg';
 
 interface DocItem {
   id: string;
@@ -100,7 +101,16 @@ export default function TransparenciaRteModule() {
   return (
     <div className="space-y-8 animate-fadeIn" id="transparencia-rte-container">
       {/* Banner de Cabecera de Transparencia */}
-      <div className="bg-gradient-to-br from-stone-900 via-olive-950 to-stone-950 text-white rounded-3xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
+      <div className="bg-stone-950 text-white rounded-3xl p-6 sm:p-10 shadow-sm relative overflow-hidden">
+        {/* Background Image with Gradient Overlay */}
+        <img
+          src={coffeeFarmImg}
+          alt="Caficultura de Tolima"
+          className="absolute inset-0 w-full h-full object-cover opacity-25"
+          referrerPolicy="no-referrer"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950 via-stone-950/85 to-transparent pointer-events-none"></div>
+
         <div className="absolute top-0 right-0 w-80 h-80 bg-olive-500/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-2xl">

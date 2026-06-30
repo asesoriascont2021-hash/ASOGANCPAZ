@@ -122,30 +122,6 @@ export default function MisionVisionModule() {
           </div>
         </div>
       </div>
-
-      {/* Sustainable Development Commitments */}
-      <div className="bg-emerald-50/50 border border-emerald-150 rounded-2xl p-6 sm:p-8 flex flex-col lg:flex-row items-center justify-between gap-6">
-        <div className="space-y-2">
-          <div className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">
-            <Sprout className="w-3 h-3" />
-            Compromiso Tolima Sostenible
-          </div>
-          <h4 className="font-serif text-lg sm:text-xl font-bold text-emerald-950">Nuestros Esfuerzos de Conservación y Ganadería Amiga</h4>
-          <p className="text-emerald-900/80 text-xs sm:text-sm max-w-2xl font-sans">
-            Bajo el liderazgo de Johan David Machado Benavides, impulsamos talleres constantes para el control racional del suelo, evitando la sobreexplotación. Los caficultores de ASOGANCPAZ aplican agricultura orgánica y reducen las descargas de pulpa de café a las quebradas de Icononzo, garantizando una taza limpia y un agua libre de contaminación.
-          </p>
-        </div>
-        <div className="grid grid-cols-2 gap-4 shrink-0 w-full sm:w-auto">
-          <div className="bg-white border border-emerald-100 p-4 rounded-xl text-center shadow-3xs">
-            <span className="font-mono text-xl sm:text-2xl font-extrabold text-emerald-800">45+</span>
-            <span className="text-[10px] text-stone-500 block uppercase font-bold mt-1">Familias Unidas</span>
-          </div>
-          <div className="bg-white border border-emerald-100 p-4 rounded-xl text-center shadow-3xs">
-            <span className="font-mono text-xl sm:text-2xl font-extrabold text-emerald-800">120+</span>
-            <span className="text-[10px] text-stone-500 block uppercase font-bold mt-1">Hectáreas Protegidas</span>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

@@ -34,6 +34,10 @@ export interface SpecialtyLot {
   perfilSensorial: string;
   kilosDisponibles: number;
   precioKilo: number; // COP
+  tagBadge?: string;
+  locationPin?: string;
+  rating?: number;
+  tastingNotes?: string[];
 }
 
 export interface Message {
