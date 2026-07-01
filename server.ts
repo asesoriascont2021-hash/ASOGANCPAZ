@@ -3,13 +3,21 @@ import path from "path";
 import dotenv from "dotenv";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import fs from "fs";
 
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: "25mb" }));
+
+// Serve the documentos folder statically at /documentos
+const publicDocsPath = path.join(process.cwd(), "public", "documentos");
+if (!fs.existsSync(publicDocsPath)) {
+  fs.mkdirSync(publicDocsPath, { recursive: true });
+}
+app.use("/documentos", express.static(publicDocsPath));
 
 // Lazy-initialized Gemini Client
 let aiInstance: GoogleGenAI | null = null;
@@ -150,6 +158,76 @@ app.get("/api/market-analysis", async (req, res) => {
   } catch (err) {
     console.error("Internal market-analysis error:", err);
     res.status(500).json({ error: "Error interno del servidor al consultar datos del mercado." });
+  }
+});
+
+// 3. List uploaded documents (check if .pdf or .txt exist)
+app.get("/api/list-documents", (req, res) => {
+  try {
+    const docsDir = path.join(process.cwd(), "public", "documentos");
+    if (!fs.existsSync(docsDir)) {
+      return res.json([]);
+    }
+    const files = fs.readdirSync(docsDir);
+    res.json(files);
+  } catch (err: any) {
+    console.error("Error al listar documentos:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 4. Secure upload endpoint for PDFs or text documents
+app.post("/api/upload-document", (req, res) => {
+  try {
+    const { fileName, fileBase64 } = req.body;
+    if (!fileName || !fileBase64) {
+      return res.status(400).json({ error: "fileName y fileBase64 son requeridos." });
+    }
+
+    // Sanitize filename to prevent directory traversal
+    const safeName = path.basename(fileName);
+    const docsDir = path.join(process.cwd(), "public", "documentos");
+    if (!fs.existsSync(docsDir)) {
+      fs.mkdirSync(docsDir, { recursive: true });
+    }
+
+    const filePath = path.join(docsDir, safeName);
+    const buffer = Buffer.from(fileBase64, "base64");
+    
+    // Write file to public/documentos/
+    fs.writeFileSync(filePath, buffer);
+
+    console.log(`[ASOGANCPAZ Upload] Archivo guardado: ${safeName}`);
+    res.json({ success: true, fileName: safeName, path: `/documentos/${safeName}` });
+  } catch (err: any) {
+    console.error("Error al subir documento:", err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// 5. Secure forced download endpoint
+app.get("/api/download/:fileName", (req, res) => {
+  try {
+    const fileName = path.basename(req.params.fileName);
+    const docsDir = path.join(process.cwd(), "public", "documentos");
+    const filePath = path.join(docsDir, fileName);
+
+    if (!fs.existsSync(filePath)) {
+      console.error(`[ASOGANCPAZ Download] Archivo no encontrado: ${filePath}`);
+      return res.status(404).send("Archivo no encontrado en el servidor.");
+    }
+
+    console.log(`[ASOGANCPAZ Download] Sirviendo descarga forzada para: ${fileName}`);
+    
+    // Set headers to force binary attachment download
+    res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+    res.setHeader("Content-Type", "application/pdf");
+    
+    const fileStream = fs.createReadStream(filePath);
+    fileStream.pipe(res);
+  } catch (err: any) {
+    console.error("Error en descarga:", err);
+    res.status(500).send("Error interno al descargar el archivo.");
   }
 });
 
