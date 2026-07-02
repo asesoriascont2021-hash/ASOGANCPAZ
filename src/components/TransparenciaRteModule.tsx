@@ -22,7 +22,17 @@ export default function TransparenciaRteModule() {
   // Admin and Dynamic File Upload State
   const [isAdmin, setIsAdmin] = useState(false);
   const [showAdminZone, setShowAdminZone] = useState(false);
-  const [existingFiles, setExistingFiles] = useState<string[]>([]);
+  const [existingFiles, setExistingFiles] = useState<string[]>([
+    '1_certificado_camara_comercio.pdf',
+    '2_estados_financieros_firmados_2025.pdf',
+    '3_estatutos_asogancpaz_2022.pdf',
+    '4_acta_asamblea_general_2026.pdf',
+    '5_acta_constitucion_reunion_01.pdf',
+    '6_certificacion_antecedentes_judiciales.pdf',
+    '7_certificacion_cargos_directivos_no_remuneracion.pdf',
+    '8_certificacion_requisitos_especiales_rte.pdf',
+    '9_politicas_contables_revelaciones_2025.pdf'
+  ]);
   const [uploadingId, setUploadingId] = useState<string | null>(null);
 
   const rteDocuments: DocItem[] = [
@@ -154,9 +164,9 @@ export default function TransparenciaRteModule() {
       const isPdfAvailable = existingFiles.includes(pdfName);
       const finalFileName = isPdfAvailable ? pdfName : doc.fileName;
 
-      // Perform a real download from our secure API endpoint to force PDF mime-types and attachments
+      // Perform a real download (use static path for PDFs to ensure compatibility with static hosting like GitHub Pages/Vercel)
       const element = document.createElement('a');
-      element.href = `/api/download/${finalFileName}`;
+      element.href = isPdfAvailable ? `/documentos/${finalFileName}` : `/api/download/${finalFileName}`;
       element.download = finalFileName;
       document.body.appendChild(element);
       element.click();
