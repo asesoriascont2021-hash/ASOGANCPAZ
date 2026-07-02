@@ -109,21 +109,7 @@ export default function App() {
             </div>
           </div>
 
-          {/* Quick Stats Panel */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-4 md:self-center">
-            <div className="px-3.5 py-1.5 bg-stone-50 border border-stone-200 rounded-xl text-xs flex flex-col">
-              <span className="text-[9px] text-stone-400 font-bold uppercase tracking-wider">Carga Base CPS (125kg)</span>
-              <span className="font-mono font-bold text-emerald-800 text-sm">
-                ${precioBaseCargo.toLocaleString('es-CO')}
-              </span>
-            </div>
-            <div className="px-3.5 py-1.5 bg-stone-50 border border-stone-200 rounded-xl text-xs flex flex-col">
-              <span className="text-[9px] text-stone-400 font-bold uppercase tracking-wider">TRM de Referencia</span>
-              <span className="font-mono font-bold text-stone-800 text-sm">
-                ${tasaCambioTRM.toLocaleString('es-CO')}
-              </span>
-            </div>
-          </div>
+
         </div>
       </header>
 
