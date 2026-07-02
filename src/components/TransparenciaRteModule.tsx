@@ -111,7 +111,7 @@ export default function TransparenciaRteModule() {
 
   const fetchDocumentsList = async () => {
     try {
-      const response = await fetch('/api/list-documents');
+      const response = await fetch(`/api/list-documents?t=${Date.now()}`);
       if (response.ok) {
         const data = await response.json();
         setExistingFiles(data);

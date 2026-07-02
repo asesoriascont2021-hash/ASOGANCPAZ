@@ -164,6 +164,11 @@ app.get("/api/market-analysis", async (req, res) => {
 // 3. List uploaded documents (check if .pdf or .txt exist)
 app.get("/api/list-documents", (req, res) => {
   try {
+    // Set headers to explicitly prevent browser caching
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+
     const docsDir = path.join(process.cwd(), "public", "documentos");
     if (!fs.existsSync(docsDir)) {
       return res.json([]);
